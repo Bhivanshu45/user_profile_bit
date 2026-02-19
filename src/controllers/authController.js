@@ -5,14 +5,6 @@ exports.signup = async (req, res, next) => {
   try {
     const { fullName, age, gender } = req.body;
 
-    // Validate input
-    if (!fullName || !age || !gender) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide full name, age, and gender'
-      });
-    }
-
     // Create new user
     const user = await User.create({
       fullName,
@@ -31,7 +23,10 @@ exports.signup = async (req, res, next) => {
       }
     });
   } catch (error) {
-    next(error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
