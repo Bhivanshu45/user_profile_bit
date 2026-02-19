@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  name: {
+  fullName: {
     type: String,
-    required: [true, 'Name is required'],
+    required: [true, 'Full name is required'],
     trim: true
   },
   age: {
@@ -12,23 +12,11 @@ const userSchema = new mongoose.Schema({
     min: 1,
     max: 120
   },
-  mobileNumber: {
-    type: String,
-    required: [true, 'Mobile number is required'],
-    unique: true,
-    trim: true,
-    match: [/^[0-9]{10}$/, 'Please provide a valid 10-digit mobile number']
-  },
   gender: {
     type: String,
     required: [true, 'Gender is required'],
     enum: ['Male', 'Female', 'Other'],
     trim: true
-  },
-  password: {
-    type: String,
-    required: [true, 'Password is required'],
-    minlength: 6
   },
   createdAt: {
     type: Date,

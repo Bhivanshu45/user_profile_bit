@@ -3,32 +3,21 @@ const User = require('../models/User');
 // Signup - Create new user
 exports.signup = async (req, res, next) => {
   try {
-    const { name, age, mobileNumber, gender, password } = req.body;
+    const { fullName, age, gender } = req.body;
 
     // Validate input
-    if (!name || !age || !mobileNumber || !gender || !password) {
+    if (!fullName || !age || !gender) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide name, age, mobile number, gender, and password'
-      });
-    }
-
-    // Check if user already exists
-    const existingUser = await User.findOne({ mobileNumber });
-    if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        message: 'User with this mobile number already exists'
+        message: 'Please provide full name, age, and gender'
       });
     }
 
     // Create new user
     const user = await User.create({
-      name,
+      fullName,
       age,
-      mobileNumber,
-      gender,
-      password
+      gender
     });
 
     res.status(201).json({
@@ -36,8 +25,9 @@ exports.signup = async (req, res, next) => {
       message: 'User registered successfully',
       data: {
         userId: user._id,
-        name: user.name,
-        mobileNumber: user.mobileNumber
+        fullName: user.fullName,
+        age: user.age,
+        gender: user.gender
       }
     });
   } catch (error) {
@@ -45,46 +35,46 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-// Login - Authenticate user
-exports.login = async (req, res, next) => {
-  try {
-    const { mobileNumber, password } = req.body;
+// Login - Authenticate user (COMMENTED OUT)
+// exports.login = async (req, res, next) => {
+//   try {
+//     const { mobileNumber, password } = req.body;
 
-    // Validate input
-    if (!mobileNumber || !password) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide mobile number and password'
-      });
-    }
+//     // Validate input
+//     if (!mobileNumber || !password) {
+//       return res.status(400).json({
+//         success: false,
+//         message: 'Please provide mobile number and password'
+//       });
+//     }
 
-    // Find user by mobile number
-    const user = await User.findOne({ mobileNumber });
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: 'Invalid mobile number or password'
-      });
-    }
+//     // Find user by mobile number
+//     const user = await User.findOne({ mobileNumber });
+//     if (!user) {
+//       return res.status(401).json({
+//         success: false,
+//         message: 'Invalid mobile number or password'
+//       });
+//     }
 
-    // Validate password (basic comparison - no hashing for prototype)
-    if (user.password !== password) {
-      return res.status(401).json({
-        success: false,
-        message: 'Invalid mobile number or password'
-      });
-    }
+//     // Validate password (basic comparison - no hashing for prototype)
+//     if (user.password !== password) {
+//       return res.status(401).json({
+//         success: false,
+//         message: 'Invalid mobile number or password'
+//       });
+//     }
 
-    res.status(200).json({
-      success: true,
-      message: 'Login successful',
-      data: {
-        userId: user._id,
-        name: user.name,
-        mobileNumber: user.mobileNumber
-      }
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+//     res.status(200).json({
+//       success: true,
+//       message: 'Login successful',
+//       data: {
+//         userId: user._id,
+//         name: user.name,
+//         mobileNumber: user.mobileNumber
+//       }
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };

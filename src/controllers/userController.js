@@ -27,9 +27,8 @@ exports.getUserDetails = async (req, res, next) => {
       message: 'User details retrieved successfully',
       data: {
         userId: user._id,
-        name: user.name,
+        fullName: user.fullName,
         age: user.age,
-        mobileNumber: user.mobileNumber,
         gender: user.gender,
         createdAt: user.createdAt
       }
