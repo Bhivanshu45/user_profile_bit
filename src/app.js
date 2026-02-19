@@ -9,7 +9,7 @@ const userRoutes = require('./routes/user');
 // const contactRoutes = require('./routes/contacts'); // COMMENTED OUT
 
 // Import error handler
-const errorHandler = require('./middleware/errorHandler');
+// const errorHandler = require('./middleware/errorHandler'); // COMMENTED OUT
 
 const app = express();
 
@@ -39,7 +39,7 @@ app.use((req, res) => {
   });
 });
 
-// Error handling middleware
-app.use(errorHandler);
+// Error handling middleware (COMMENTED OUT)
+// app.use(errorHandler);
 
 module.exports = app;
