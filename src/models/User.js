@@ -19,8 +19,10 @@ const userSchema = new mongoose.Schema({
     trim: true,
     match: [/^[0-9]{10}$/, 'Please provide a valid 10-digit mobile number']
   },
-  phoneNumber: {
+  gender: {
     type: String,
+    required: [true, 'Gender is required'],
+    enum: ['Male', 'Female', 'Other'],
     trim: true
   },
   password: {

@@ -30,7 +30,7 @@ exports.getUserDetails = async (req, res, next) => {
         name: user.name,
         age: user.age,
         mobileNumber: user.mobileNumber,
-        phoneNumber: user.phoneNumber,
+        gender: user.gender,
         createdAt: user.createdAt
       }
     });

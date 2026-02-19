@@ -3,13 +3,13 @@ const User = require('../models/User');
 // Signup - Create new user
 exports.signup = async (req, res, next) => {
   try {
-    const { name, age, mobileNumber, phoneNumber, password } = req.body;
+    const { name, age, mobileNumber, gender, password } = req.body;
 
     // Validate input
-    if (!name || !age || !mobileNumber || !password) {
+    if (!name || !age || !mobileNumber || !gender || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide name, age, mobile number, and password'
+        message: 'Please provide name, age, mobile number, gender, and password'
       });
     }
 
@@ -27,7 +27,7 @@ exports.signup = async (req, res, next) => {
       name,
       age,
       mobileNumber,
-      phoneNumber,
+      gender,
       password
     });
 

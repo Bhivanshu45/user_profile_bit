@@ -67,7 +67,7 @@ Content-Type: application/json
   "name": "John Doe",
   "age": 25,
   "mobileNumber": "9876543210",
-  "phoneNumber": "9876543210",
+  "gender": "Male",
   "password": "password123"
 }
 ```
@@ -145,7 +145,7 @@ GET https://user-profile-bit.onrender.com/api/user/699743461d29df815dff4e08
     "name": "John Doe",
     "age": 25,
     "mobileNumber": "9876543210",
-    "phoneNumber": "9876543210",
+    "gender": "Male",
     "createdAt": "2026-02-20T10:30:00.000Z"
   }
 }
