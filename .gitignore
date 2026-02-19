@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Environment variables (IMPORTANT - DO NOT COMMIT)
+.env
+.env.local
+.env.*.local
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build outputs
+dist/
+build/
+
+# Misc
+.cache/
+coverage/
