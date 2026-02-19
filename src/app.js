@@ -6,7 +6,7 @@ require('dotenv').config();
 // Import routes
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
-// const contactRoutes = require('./routes/contacts'); // COMMENTED OUT
+const contactRoutes = require('./routes/contacts');
 
 // Import error handler
 // const errorHandler = require('./middleware/errorHandler'); // COMMENTED OUT
@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
-// app.use('/api/contacts', contactRoutes); // COMMENTED OUT
+app.use('/api/contacts', contactRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const ParentalContact = require('../models/ParentalContact');
 
 // Get user details by userId
 exports.getUserDetails = async (req, res, next) => {
@@ -22,6 +23,8 @@ exports.getUserDetails = async (req, res, next) => {
       });
     }
 
+    const parentalContact = await ParentalContact.findOne({ userId: user._id });
+
     res.status(200).json({
       success: true,
       message: 'User details retrieved successfully',
@@ -30,6 +33,7 @@ exports.getUserDetails = async (req, res, next) => {
         fullName: user.fullName,
         age: user.age,
         gender: user.gender,
+        parentalContacts: parentalContact?.contactNumbers || [],
         createdAt: user.createdAt
       }
     });

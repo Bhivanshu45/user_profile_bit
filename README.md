@@ -109,6 +109,7 @@ GET https://user-profile-bit.onrender.com/api/user/699743461d29df815dff4e08
     "fullName": "John Doe",
     "age": 25,
     "gender": "Male",
+    "parentalContacts": ["9123456789", "9987654321"],
     "createdAt": "2026-02-20T10:30:00.000Z"
   }
 }
@@ -123,6 +124,60 @@ GET https://user-profile-bit.onrender.com/api/user/699743461d29df815dff4e08
 
 ---
 
+### **4. Add Parental Contacts**
+```
+POST https://user-profile-bit.onrender.com/api/contacts/add/{userId}
+Content-Type: application/json
+```
+**Example:**
+```
+POST https://user-profile-bit.onrender.com/api/contacts/add/699743461d29df815dff4e08
+```
+**Request Body:**
+```json
+{
+  "contactNumbers": ["9123456789", "9987654321", "9555666777"]
+}
+```
+**Success Response (201):**
+```json
+{
+  "success": true,
+  "message": "Parental contacts saved successfully",
+  "data": {
+    "userId": "699743461d29df815dff4e08",
+    "contactNumbers": ["9123456789", "9987654321", "9555666777"],
+    "createdAt": "2026-02-20T10:35:00.000Z"
+  }
+}
+```
+
+---
+
+### **5. Get Parental Contacts**
+```
+GET https://user-profile-bit.onrender.com/api/contacts/{userId}
+```
+**Example:**
+```
+GET https://user-profile-bit.onrender.com/api/contacts/699743461d29df815dff4e08
+```
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "message": "Parental contacts retrieved successfully",
+  "data": {
+    "userId": "699743461d29df815dff4e08",
+    "contactNumbers": ["9123456789", "9987654321", "9555666777"],
+    "createdAt": "2026-02-20T10:35:00.000Z",
+    "updatedAt": "2026-02-20T10:35:00.000Z"
+  }
+}
+```
+
+---
+
 ## 📋 Quick Reference
 
 | Method | Endpoint | Description |
@@ -130,13 +185,16 @@ GET https://user-profile-bit.onrender.com/api/user/699743461d29df815dff4e08
 | GET | `/health` | Health check |
 | POST | `/api/auth/signup` | Register new user |
 | GET | `/api/user/:userId` | Get user details |
+| POST | `/api/contacts/add/:userId` | Add/Update parental contacts |
+| GET | `/api/contacts/:userId` | Get parental contacts |
 
 ---
 
 ## 🔄 Typical API Flow
 
 1. **Signup** → Submit fullName, age, and gender → Get `userId`
-2. **Get User Details** → Fetch profile using `userId`
+2. **Add Contacts** → Save parental contacts for `userId`
+3. **Get User Details** → Fetch profile + contacts using `userId`
 
 ---
 

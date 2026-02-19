@@ -1,48 +1,26 @@
 const ParentalContact = require('../models/ParentalContact');
-const User = require('../models/User');
 
 // Add parental contacts
 exports.addContacts = async (req, res, next) => {
   try {
-    const { userId, contactNumbers } = req.body;
+    const { userId } = req.params;
+    const { contactNumbers } = req.body;
 
-    // Validate input
-    if (!userId || !contactNumbers || !Array.isArray(contactNumbers)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide userId and contactNumbers (as array)'
-      });
-    }
-
-    if (contactNumbers.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'At least one contact number is required'
-      });
-    }
-
-    // Check if user exists
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'User not found'
-      });
-    }
+    const safeContactNumbers = Array.isArray(contactNumbers) ? contactNumbers : [];
 
     // Check if contacts already exist for this user
     let parentalContact = await ParentalContact.findOne({ userId });
 
     if (parentalContact) {
       // Update existing contacts
-      parentalContact.contactNumbers = contactNumbers;
+      parentalContact.contactNumbers = safeContactNumbers;
       parentalContact.updatedAt = Date.now();
       await parentalContact.save();
     } else {
       // Create new contacts
       parentalContact = await ParentalContact.create({
         userId,
-        contactNumbers
+        contactNumbers: safeContactNumbers
       });
     }
 
@@ -56,7 +34,10 @@ exports.addContacts = async (req, res, next) => {
       }
     });
   } catch (error) {
-    next(error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
@@ -65,24 +46,17 @@ exports.getContacts = async (req, res, next) => {
   try {
     const { userId } = req.params;
 
-    // Validate userId
     if (!userId) {
-      return res.status(400).json({
-        success: false,
-        message: 'User ID is required'
+      return res.status(200).json({
+        success: true,
+        message: 'No contacts found for this user',
+        data: {
+          userId: null,
+          contactNumbers: []
+        }
       });
     }
 
-    // Check if user exists
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'User not found'
-      });
-    }
-
-    // Find parental contacts
     const parentalContact = await ParentalContact.findOne({ userId });
 
     if (!parentalContact) {
@@ -107,6 +81,9 @@ exports.getContacts = async (req, res, next) => {
       }
     });
   } catch (error) {
-    next(error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
