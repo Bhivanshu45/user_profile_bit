@@ -29,7 +29,7 @@ const client = new twilio(
   process.env.TWILIO_TOKEN
 );
 
-app.post("/api/send-sms", async (req, res) => {
+app.post("/send-sms", async (req, res) => {
   const { to, message } = req.body;
 
   // validation
