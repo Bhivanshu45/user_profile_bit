@@ -23,6 +23,45 @@ app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/contacts', contactRoutes);
 
+const twilio = require('twilio');
+const client = new twilio(
+  process.env.TWILIO_SID,
+  process.env.TWILIO_TOKEN
+);
+
+app.post("/api/send-sms", async (req, res) => {
+  const { to, message } = req.body;
+
+  // validation
+  if (!to || !message) {
+    return res.status(400).json({
+      success: false,
+      error: "Phone number and message required"
+    });
+  }
+
+  try {
+    const response = await client.messages.create({
+      body: message,
+      from: process.env.TWILIO_NUMBER,
+      to: to
+    });
+
+    res.json({
+      success: true,
+      sid: response.sid
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({

@@ -9,6 +9,7 @@ A simple backend API for storing user profiles, built for rapid prototyping and 
 - User signup (store user data)
 - User profile retrieval
 - MongoDB Atlas integration
+- Send SMS via Twilio
 - Deployed on Render
 
 ## 🛠️ Tech Stack
@@ -27,6 +28,7 @@ npm install
 # Setup environment variables
 cp .env.example .env
 # Edit .env with your MongoDB URI
+# Add Twilio credentials if using the SMS endpoint
 
 # Run development server
 npm run dev
@@ -178,6 +180,33 @@ GET https://user-profile-bit.onrender.com/api/contacts/699743461d29df815dff4e08
 
 ---
 
+### **6. Send SMS (Twilio)**
+```
+POST https://user-profile-bit.onrender.com/api/sms/send
+Content-Type: application/json
+```
+**Request Body:**
+```json
+{
+  "to": "+14155552671",
+  "message": "Hello from Twilio!"
+}
+```
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "message": "SMS sent successfully",
+  "data": {
+    "sid": "SMxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "to": "+14155552671",
+    "status": "queued"
+  }
+}
+```
+
+---
+
 ## 📋 Quick Reference
 
 | Method | Endpoint | Description |
@@ -187,6 +216,7 @@ GET https://user-profile-bit.onrender.com/api/contacts/699743461d29df815dff4e08
 | GET | `/api/user/:userId` | Get user details |
 | POST | `/api/contacts/add/:userId` | Add/Update parental contacts |
 | GET | `/api/contacts/:userId` | Get parental contacts |
+| POST | `/api/sms/send` | Send SMS via Twilio |
 
 ---
 
@@ -195,6 +225,22 @@ GET https://user-profile-bit.onrender.com/api/contacts/699743461d29df815dff4e08
 1. **Signup** → Submit fullName, age, and gender → Get `userId`
 2. **Add Contacts** → Save parental contacts for `userId`
 3. **Get User Details** → Fetch profile + contacts using `userId`
+
+---
+
+## 📲 Twilio Setup
+
+Add the following environment variables in your `.env`:
+
+```
+TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+TWILIO_AUTH_TOKEN=your_auth_token
+TWILIO_FROM_NUMBER=+14155552671
+# Optional: use this instead of TWILIO_FROM_NUMBER
+TWILIO_MESSAGING_SERVICE_SID=MGxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+If you set `TWILIO_MESSAGING_SERVICE_SID`, it will be used instead of `TWILIO_FROM_NUMBER`.
 
 ---
 
